@@ -15,6 +15,12 @@ export const tasksData = [
         ],
     },
     {
+        type: 'Тип 8',
+        tasks: [
+            { name: 'Пороро', slug: 'pororo', mdFile: '/content/type_8/pororo/pororo.md' },
+        ],
+    },
+    {
         type: 'Тип 14',
         tasks: [
             { name: 'Бублик', slug: 'bublik', mdFile: '/content/type_14/bublik/bublik.md' },
