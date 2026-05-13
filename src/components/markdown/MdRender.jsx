@@ -169,10 +169,21 @@ const ParagraphComponent = ({ node, children, ...props }) => {
     return <p className="mb-4 text-foreground leading-relaxed" {...props}>{processedChildren}</p>
 }
 
+// Компонент для заголовков с обработкой формул
+const HeadingComponent = ({ as: Component, className, children, ...props }) => {
+    const processedChildren = processMathInText(children)
+    return <Component className={className} {...props}>{processedChildren}</Component>
+}
+
 // Компонент для элементов списка с обработкой формул
 const ListItemComponent = ({ node, children, ...props }) => {
     const processedChildren = processMathInText(children)
     return <li className="text-foreground" {...props}>{processedChildren}</li>
+}
+
+const InlineTextComponent = ({ as: Component, className, children, ...props }) => {
+    const processedChildren = processMathInText(children)
+    return <Component className={className} {...props}>{processedChildren}</Component>
 }
 
 // Основной компонент MarkdownRenderer
@@ -196,12 +207,12 @@ const MarkdownRenderer = ({ content, className = "" }) => {
                 rehypePlugins={[rehypeHighlight]}
                 components={{
                     // Заголовки
-                    h1: ({ node, ...props }) => <h1 className="text-3xl font-bold text-primary mb-6 mt-8" {...props} />,
-                    h2: ({ node, ...props }) => <h2 className="text-2xl font-bold text-primary mb-5 mt-7" {...props} />,
-                    h3: ({ node, ...props }) => <h3 className="text-xl font-bold text-primary mb-4 mt-6" {...props} />,
-                    h4: ({ node, ...props }) => <h4 className="text-lg font-semibold text-foreground mb-3 mt-5" {...props} />,
-                    h5: ({ node, ...props }) => <h5 className="text-base font-semibold text-foreground mb-2 mt-4" {...props} />,
-                    h6: ({ node, ...props }) => <h6 className="text-sm font-semibold text-foreground mb-2 mt-3" {...props} />,
+                    h1: ({ node, ...props }) => <HeadingComponent as="h1" className="text-3xl font-bold text-primary mb-6 mt-8" {...props} />,
+                    h2: ({ node, ...props }) => <HeadingComponent as="h2" className="text-2xl font-bold text-primary mb-5 mt-7" {...props} />,
+                    h3: ({ node, ...props }) => <HeadingComponent as="h3" className="text-xl font-bold text-primary mb-4 mt-6" {...props} />,
+                    h4: ({ node, ...props }) => <HeadingComponent as="h4" className="text-lg font-semibold text-foreground mb-3 mt-5" {...props} />,
+                    h5: ({ node, ...props }) => <HeadingComponent as="h5" className="text-base font-semibold text-foreground mb-2 mt-4" {...props} />,
+                    h6: ({ node, ...props }) => <HeadingComponent as="h6" className="text-sm font-semibold text-foreground mb-2 mt-3" {...props} />,
 
                     // Параграфы
                     p: ParagraphComponent,
@@ -214,8 +225,8 @@ const MarkdownRenderer = ({ content, className = "" }) => {
                     img: ImageComponent,
 
                     // Текстовые элементы
-                    strong: ({ node, ...props }) => <strong className="font-semibold text-foreground" {...props} />,
-                    em: ({ node, ...props }) => <em className="italic text-foreground" {...props} />,
+                    strong: ({ node, ...props }) => <InlineTextComponent as="strong" className="font-semibold text-foreground" {...props} />,
+                    em: ({ node, ...props }) => <InlineTextComponent as="em" className="italic text-foreground" {...props} />,
 
                     // Цитаты
                     blockquote: ({ node, ...props }) => (
@@ -241,10 +252,10 @@ const MarkdownRenderer = ({ content, className = "" }) => {
                     tbody: ({ node, ...props }) => <tbody {...props} />,
                     tr: ({ node, ...props }) => <tr className="border-b border-border" {...props} />,
                     th: ({ node, ...props }) => (
-                        <th className="border border-border px-4 py-2 text-left font-semibold text-foreground" {...props} />
+                        <InlineTextComponent as="th" className="border border-border px-4 py-2 text-left font-semibold text-foreground" {...props} />
                     ),
                     td: ({ node, ...props }) => (
-                        <td className="border border-border px-4 py-2 text-foreground" {...props} />
+                        <InlineTextComponent as="td" className="border border-border px-4 py-2 text-foreground" {...props} />
                     ),
 
                     // Ссылки
