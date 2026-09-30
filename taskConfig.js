@@ -14,6 +14,13 @@ export const tasksData = [
             { name: 'Иришка', slug: 'irishka', mdFile: '/content/type_5/irishka/irishka.md' },
         ],
     },
+        {
+        type: 'Тип 6',
+        tipSlug: '6',
+        tasks: [
+            { name: 'Танос', slug: 'thanos', mdFile: '/content/type_6/thanos/thanos.md' },
+        ],
+    },
     {
         type: 'Тип 8',
         tasks: [
